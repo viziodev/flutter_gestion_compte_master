@@ -175,3 +175,50 @@ class AppDrawer extends StatelessWidget {
   }
 }
 
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  
+  // Liste des widgets à afficher pour chaque onglet
+  static List<Widget> _pages = <Widget>[
+    Center(child: Text('Page d\'accueil', style: TextStyle(fontSize: 30))),
+    Center(child: Text('Page de recherche', style: TextStyle(fontSize: 30))),
+    Center(child: Text('Page de profil', style: TextStyle(fontSize: 30))),
+  ];
+  
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('BottomNavigationBar Demo'),
+      ),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Accueil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Recherche',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
