@@ -1,0 +1,177 @@
+class _CompteFormState extends State<CompteForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _numeroController = TextEditingController();
+  final _montantController = TextEditingController();
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _numeroController.dispose();
+    _montantController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        final newCompte = Compte(
+          numero: _numeroController.text,
+          dateCreation: DateTime.now(),
+          montant: double.parse(_montantController.text),
+        );
+
+        await widget.apiService.createCompte(newCompte);
+        
+        if (!mounted) return;
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Compte créé avec succès')),
+        );
+        
+        Navigator.pop(context, true);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur: ${e.toString()}')),
+        );
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
+    }
+  }
+
+
+  intl: ^0.17.0
+
+
+  lass BottomNavWidget extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onTap;
+
+  const BottomNavWidget({
+    Key? key,
+    required this.currentIndex,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: currentIndex,
+      onTap: onTap,
+      items: const [
+        BottomNavigationBar.item(
+          icon: Icon(Icons.home),
+          label: 'Accueil',
+        ),
+        BottomNavigationBar.item(
+          icon: Icon(Icons.account_balance_wallet),
+          label: 'Comptes',
+        ),
+        BottomNavigationBar.item(
+          icon: Icon(Icons.receipt_long),
+          label: 'Transactions',
+        ),
+      ],
+    );
+  }
+}
+
+
+
+class AppDrawer extends StatelessWidget {
+  final Function(int) onItemSelected;
+  final int selectedIndex;
+
+  const AppDrawer({
+    Key? key,
+    required this.onItemSelected,
+    required this.selectedIndex,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
+            child: const Text(
+              AppConstants.appName,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text(AppConstants.home),
+            selected: selectedIndex == 0,
+            onTap: () {
+              onItemSelected(0);
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_balance_wallet),
+            title: const Text(AppConstants.comptes),
+            selected: selectedIndex == 1,
+            onTap: () {
+              onItemSelected(1);
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_card),
+            title: const Text(AppConstants.createCompte),
+            selected: selectedIndex == 2,
+            onTap: () {
+              onItemSelected(2);
+              Navigator.pop(context);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text(AppConstants.exit),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Quitter l\'application'),
+                  content: const Text('Voulez-vous vraiment quitter l\'application?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Annuler'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('Quitter'),
+                    ),
+                  ],
+                ),
+              ).then((value) {
+                if (value == true) {
+                  Navigator.pop(context);
+                }
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+

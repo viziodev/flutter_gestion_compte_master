@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gestion_student/models/compte.dart';
+import 'package:flutter_gestion_student/views/screens/compte/detail/widgets/card_detail_compte.dart';
 
 class CompteDetailScreen extends StatefulWidget {
   const CompteDetailScreen({super.key});
@@ -8,8 +10,11 @@ class CompteDetailScreen extends StatefulWidget {
 }
 
 class _CompteDetailScreenState extends State<CompteDetailScreen> {
+
   @override
   Widget build(BuildContext context) {
+       final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+       final compte = args["data"]as Compte;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Details Comptes'),
@@ -18,43 +23,13 @@ class _CompteDetailScreenState extends State<CompteDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:[
-                Card(
-                    margin: const EdgeInsets.all(16),
-                    child: Container(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Compte N°: XX',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Solde: 1000 CFA',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Date de création: ',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
+                  CardCompteDetail(compte: compte),
                     Padding(
                      padding: const EdgeInsets.all(16),
                      child: Text(
                        'Liste des Transactions',
-                         style: Theme.of(context).textTheme.titleLarge,
-
-                      
-              ),
+                         style: Theme.of(context).textTheme.titleLarge,       
+                  ),
             ),
 
                ListView.builder(

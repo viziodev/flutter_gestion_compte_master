@@ -5,15 +5,22 @@ import 'package:flutter_gestion_student/models/compte.dart';
 import 'package:http/http.dart' as http;
 class ApiService{
   final String baseUrl;
+  final http.Client _client;
 
-  ApiService({ this.baseUrl="http://localhost:3000"});
+  ApiService({this.baseUrl="http://10.0.2.2:3000",http.Client? client}) : _client = client ?? http.Client();
+
   
   //All Comptes 
         Future<List<Compte>>   findAllComptes()async{
-             final response= await http.get(Uri.parse("$baseUrl/comptes"));
+              final response= await _client.get(Uri.parse("$baseUrl/comptes"),headers: {
+                 'Content-Type': 'application/json',
+             },);
+            
              if (response.statusCode==200) {
                List<dynamic> datas= json.decode(response.body);
-                return  datas.map((data) => Compte.fromJson(data)).toList();
+                 var data= datas.map((data) => Compte.fromJson(data)).toList();
+                 print(data);
+                 return data;
              }else{
               throw  Exception("Erreur de Requete");
              }

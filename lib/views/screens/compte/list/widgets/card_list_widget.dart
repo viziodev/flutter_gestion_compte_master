@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gestion_student/models/compte.dart';
 
 class CardItemCompte extends StatefulWidget {
-  
-  const CardItemCompte({super.key});
+  final Compte compte;
+  final Function onClick;
+  const CardItemCompte({super.key, required this.compte,required this.onClick});
 
   @override
   State<CardItemCompte> createState() => _CardItemCompteState();
@@ -14,15 +16,13 @@ class _CardItemCompteState extends State<CardItemCompte> {
      return  Card(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: ListTile(
-                    title: Text('Compte N°: XXXXccccccccccc'),
+                    title: Text('Compte N°: ${widget.compte.numero}'),
                     subtitle: Text(
-                      'Solde: 10000cccccccccccCFA',
+                      'Solde: ${widget.compte.solde }} CFA',
                     ),
                     trailing: const Icon(Icons.arrow_forward_ios),
-                       onTap: () async {
-                          Navigator.pushNamed(context, "/detail");
-                    }
-                                  )
+                       onTap:() => widget.onClick(),
+                  )
    );
   }
 }

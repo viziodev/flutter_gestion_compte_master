@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gestion_student/services/api_service.dart';
 import 'package:flutter_gestion_student/utils/constants.dart';
 import 'package:flutter_gestion_student/views/screens/compte/detail/compte_detail.dart';
 import 'package:flutter_gestion_student/views/screens/compte/form/compte_form.dart';
 import 'package:flutter_gestion_student/views/screens/compte/list/comptes_list.dart';
-import 'package:flutter_gestion_student/views/screens/home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,18 +14,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    
+    final apiService = ApiService();
     return MaterialApp(
       title: AppConstants.appTitle,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-         initialRoute: '/',
+         initialRoute: '/comptes',
          routes: {
-           '/': (context) => HomeScreen(),
-           '/comptes': (context) => CompteListScreen(),
+           '/comptes': (context) => CompteListScreen(apiService:apiService ),
            '/add': (context) => CompteFormScreen(),
            '/detail': (context) => CompteDetailScreen(),
        },
