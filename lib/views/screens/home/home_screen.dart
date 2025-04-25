@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gestion_student/utils/constants.dart';
-import 'package:flutter_gestion_student/views/screens/compte_form.dart';
-import 'package:flutter_gestion_student/views/screens/comptes_list.dart';
+import 'package:flutter_gestion_student/views/screens/compte/form/compte_form.dart';
+import 'package:flutter_gestion_student/views/screens/compte/list/comptes_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

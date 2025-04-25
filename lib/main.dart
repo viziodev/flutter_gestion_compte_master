@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gestion_student/utils/constants.dart';
-import 'package:flutter_gestion_student/views/screens/compte_detail.dart';
-import 'package:flutter_gestion_student/views/screens/compte_form.dart';
-import 'package:flutter_gestion_student/views/screens/comptes_list.dart';
-import 'package:flutter_gestion_student/views/screens/home_screen.dart';
+import 'package:flutter_gestion_student/views/screens/compte/detail/compte_detail.dart';
+import 'package:flutter_gestion_student/views/screens/compte/form/compte_form.dart';
+import 'package:flutter_gestion_student/views/screens/compte/list/comptes_list.dart';
+import 'package:flutter_gestion_student/views/screens/home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
